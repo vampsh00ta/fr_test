@@ -99,12 +99,7 @@ func (s service) SendNewsletter(ctx context.Context, id int) error {
 
 	for a := 1; a <= len(msgs); a++ {
 		msg := <-result
-		//fmt.Println(msg.NewsletterId)
 		if err := s.repo.UpdateMessageById(ctx, tx, msg.MessageId, msg.Status, msg.SendTime); err != nil {
-			return err
-		}
-
-		if err := s.repo.AddMessageStatusById(ctx, tx, msg.MessageId, msg.Status, msg.SendTime); err != nil {
 			return err
 		}
 

@@ -130,14 +130,9 @@ func (pg Pg) UpdateMessageById(ctx context.Context, tx pgx.Tx, id int, status st
 
 	}
 
-	//q1 := `insert  into  status (time,text,message_id) values ($1,$2,$3)`
-	//
-	//if err = tx.QueryRow(ctx, q1, t, status, id).Scan(&id); err != nil {
-	//	return err
-	//}
-	//if err = pg.AddMessageStatusById(ctx, tx, id, status, t); err != nil {
-	//	return err
-	//}
+	if err = pg.AddMessageStatusById(ctx, tx, id, status, t); err != nil {
+		return err
+	}
 
 	return err
 }

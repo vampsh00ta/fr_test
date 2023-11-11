@@ -1,0 +1,1 @@
+dtop table if  exists status;
