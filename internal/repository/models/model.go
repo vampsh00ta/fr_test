@@ -22,11 +22,15 @@ type Message struct {
 	Id           int        `json:"id" db:"id"`
 	SendTime     *time.Time `json:"send_time" db:"send_time" `
 	CreationTime *time.Time `json:"creation_time" db:"creation_time"`
-	Status       string     `json:"status" db:"status"  example:"status"`
+	Status       Status     `json:"text" db:"-"  example:"status"`
 	NewsletterId int        `json:"newsletter_id" db:"newsletter_id" `
 	ClientId     int        `json:"client_id" db:"client_id"`
 }
-
+type Status struct {
+	Id   int        `json:"id" db:"id"`
+	Text string     `json:"text" db:"text"  example:"status"`
+	Time *time.Time `json:"time" db:"time" `
+}
 type Newsletter struct {
 	Id        int        `json:"id" db:"id"`
 	StartTime *time.Time `json:"start_time" db:"start_time" binding:"required"`
@@ -44,7 +48,7 @@ type MessageClient struct {
 	MessageId    int        `json:"message_id" db:"message_id"`
 	SendTime     *time.Time `json:"send_time" db:"send_time" `
 	CreationTime *time.Time `json:"creation_time" db:"creation_time"`
-	Status       string     `json:"status" db:"status"  example:"status"`
+	Status       string     `json:"status" db:"-"  example:"status"`
 	NewsletterId int        `json:"newsletter_id" db:"newsletter_id" `
 	ClientId     int        `json:"client_id" db:"client_id"`
 	TelNumber    string     `json:"tel_number,omitempty" db:"tel_number" `

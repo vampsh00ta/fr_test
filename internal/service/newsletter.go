@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	"fmt"
 	"fr/internal/repository/models"
 	"time"
 )
@@ -62,6 +63,8 @@ func (s service) SendNewsletter(ctx context.Context, id int) error {
 	msgs, err := s.repo.GetFullMsgsByNewsletterID(ctx, tx, id)
 	if err != nil {
 		tx.Rollback(ctx)
+		fmt.Println(err)
+
 		return err
 	}
 
@@ -96,10 +99,15 @@ func (s service) SendNewsletter(ctx context.Context, id int) error {
 
 	for a := 1; a <= len(msgs); a++ {
 		msg := <-result
+		//fmt.Println(msg.NewsletterId)
 		if err := s.repo.UpdateMessageById(ctx, tx, msg.MessageId, msg.Status, msg.SendTime); err != nil {
-
 			return err
 		}
+
+		if err := s.repo.AddMessageStatusById(ctx, tx, msg.MessageId, msg.Status, msg.SendTime); err != nil {
+			return err
+		}
+
 	}
 
 	if allDone == false {
@@ -110,6 +118,7 @@ func (s service) SendNewsletter(ctx context.Context, id int) error {
 	if err := s.repo.UpdateNewsletterEndTime(ctx, tx, id, &endTime); err != nil {
 		return err
 	}
+	tx.Commit(ctx)
 	return nil
 }
 func (s service) UpdateNewsletter(ctx context.Context, id int, newsletter models.Newsletter) error {
