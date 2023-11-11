@@ -1,0 +1,19 @@
+fr:
+  name: 'fr'
+  version: '1.0.0'
+
+http:
+  port: '8000'
+
+logger:
+  log_level: 'debug'
+  rollbar_env: 'fr'
+
+postgres:
+  username: "fr"
+  password: "fr"
+  host: "db"
+  port: "5432"
+  name: "fr"
+  pool_max: 10
+

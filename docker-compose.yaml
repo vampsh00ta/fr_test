@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  fr:
+    build:
+      context: .
+    image: gofr
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - db
+  db:
+    image: postgres:14.6
+    restart: always
+    container_name: db
+    hostname: db
+    environment:
+      POSTGRES_DB: fr
+      POSTGRES_PASSWORD: fr
+      POSTGRES_USER: fr
+    ports:
+      - "6543:5432"
+    volumes:
+      - psql:/var/lib/postgresql/data
+
+
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U fr" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - db
+
+networks:
+  db:
+    driver: bridge
+volumes:
+  psql:
