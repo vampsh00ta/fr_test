@@ -24,6 +24,8 @@ func newTransport(handler *gin.RouterGroup, t service.Service, l logger.Interfac
 	h2 := handler.Group("/newsletter")
 	{
 		h2.POST("/create", r.createNewsletter)
+		h2.DELETE("/", r.deleteNewsletter)
+		h2.PATCH("/", r.updateNewsletter)
 
 	}
 }

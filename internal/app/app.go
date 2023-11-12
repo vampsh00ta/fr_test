@@ -3,9 +3,13 @@ package app
 import (
 	"context"
 	"fmt"
+	"fr/cmd/fr/docs"
 	"fr/internal/repository"
 	"fr/internal/service"
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"os"
 	"os/signal"
 	"syscall"
@@ -37,6 +41,9 @@ func Run(cfg *config.Config) {
 	fmt.Println(err)
 	// HTTP Server
 	handler := gin.New()
+	docs.SwaggerInfo.BasePath = "/v1/"
+	handler.GET("/docs/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+
 	v1.NewRouter(handler, l, srvc)
 	httpServer := httpserver.New(handler, httpserver.Port(cfg.HTTP.Port))
 

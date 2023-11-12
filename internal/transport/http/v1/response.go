@@ -17,3 +17,7 @@ func errorResponse(c *gin.Context, code int, msg string) {
 type createClientResponse struct {
 	*models.Client
 }
+
+type createNewsletterResponse struct {
+	Id int `json:"id"  binding:"required"  example:"1"`
+}

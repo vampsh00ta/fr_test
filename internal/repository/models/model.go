@@ -13,9 +13,12 @@ type Client struct {
 }
 
 const (
-	Created      = "Сообщение создано"
-	Send         = "Сообщение отправлено"
-	SendApiError = "Ошибка"
+	Created           = "Сообщение создано"
+	Send              = "Сообщение отправлено"
+	NewsletterDeleted = "Рассылка была удалена"
+	TimeChanged       = "Время рассылки изменено"
+	ParametersChanged = "Параметры рассылки изменены"
+	SendApiError      = "Ошибка"
 )
 
 type Message struct {

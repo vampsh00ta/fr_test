@@ -1,11 +1,11 @@
 package main
 
 import (
+	_ "fr/cmd/fr/docs"
 	"fr/config"
 	"fr/internal/app"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-
 	_ "github.com/mattes/migrate/source/file"
 	"log"
 )
@@ -33,6 +33,20 @@ import (
 //		fmt.Println("migrated")
 //
 // }
+// @title Swagger Example API
+// @version 1.0
+// @description This is a sample server Petstore server.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host petstore.swagger.io
+// @BasePath /v2
 func main() {
 	cfg, err := config.New()
 	if err != nil {

@@ -9,13 +9,14 @@ import (
 )
 
 type Newsletter interface {
-	CreateNewsletter(ctx context.Context, newsletter models.Newsletter) error
+	CreateNewsletter(ctx context.Context, newsletter models.Newsletter) (*models.Newsletter, error)
 	SendNewsletter(ctx context.Context, id int) error
 	UpdateStartTimeNewsletter(ctx context.Context, id int, startTime time.Time) error
-	UpdateNewsletter(ctx context.Context, id int, newsletter models.Newsletter) error
+	UpdateNewsletter(ctx context.Context, id int, t *time.Time, text string) error
+	DeleteNewsletter(ctx context.Context, id int) error
 }
 
-func (s service) CreateNewsletter(ctx context.Context, newsletter models.Newsletter) error {
+func (s service) CreateNewsletter(ctx context.Context, newsletter models.Newsletter) (*models.Newsletter, error) {
 	var err error
 
 	tx, err := s.repo.Tx(ctx)
@@ -26,14 +27,17 @@ func (s service) CreateNewsletter(ctx context.Context, newsletter models.Newslet
 		clients, err = s.repo.GetClientsByFilter(ctx, tx, newsletter.Filter)
 
 	}
+	if clients == nil {
+		return nil, errors.New("no users")
+	}
 	if err != nil {
 		tx.Rollback(ctx)
-		return err
+		return nil, err
 	}
 	newsl, err := s.repo.AddNewsletter(ctx, tx, newsletter)
 	if err != nil {
 		tx.Rollback(ctx)
-		return err
+		return nil, err
 	}
 	messages := make([]models.Message, len(clients))
 	for i, client := range clients {
@@ -42,14 +46,14 @@ func (s service) CreateNewsletter(ctx context.Context, newsletter models.Newslet
 	_, err = s.repo.AddMessages(ctx, tx, messages...)
 	if err != nil {
 		tx.Rollback(ctx)
-		return err
+		return nil, err
 	}
 	tx.Commit(ctx)
 	if err := s.AddToScheduleNewsletter(context.Background(), newsl.Id, newsletter.StartTime); err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return newsl, nil
 }
 
 //добавить случай если апи вернуло ошибку
@@ -113,37 +117,73 @@ func (s service) SendNewsletter(ctx context.Context, id int) error {
 	if err := s.repo.UpdateNewsletterEndTime(ctx, tx, id, &endTime); err != nil {
 		return err
 	}
+
 	tx.Commit(ctx)
 	return nil
 }
-func (s service) UpdateNewsletter(ctx context.Context, id int, newsletter models.Newsletter) error {
-	//var err error
-	//
-	//tx, err := s.repo.Tx(ctx)
-	//var clients []models.Client
-	//
-	//if err != nil {
-	//	tx.Rollback(ctx)
-	//	return err
-	//}
-	//err = s.repo.UpdateNewsletterById(ctx, tx, id, newsletter.EndTime, newsletter.Text)
-	//if err != nil {
-	//	tx.Rollback(ctx)
-	//	return err
-	//}
-	//messages := make([]models.Message, len(clients))
-	//for i, client := range clients {
-	//	messages[i] = models.Message{NewsletterId: newsl.Id, ClientId: client.Id}
-	//}
-	//_, err = s.repo.AddMessages(ctx, tx, messages...)
-	//if err != nil {
-	//	tx.Rollback(ctx)
-	//	return err
-	//}
-	//tx.Commit(ctx)
-	//if err := s.AddToScheduleNewsletter(context.Background(), newsl.Id, newsletter.StartTime); err != nil {
-	//	return err
-	//}
+func (s service) UpdateNewsletter(ctx context.Context, id int, t *time.Time, text string) error {
+	var err error
 
+	tx, err := s.repo.Tx(ctx)
+	defer tx.Commit(ctx)
+	if err != nil {
+		tx.Rollback(ctx)
+		return err
+	}
+	err = s.repo.UpdateNewsletterById(ctx, tx, id, t, text)
+	if err != nil {
+		tx.Rollback(ctx)
+		return err
+	}
+	msgs, err := s.repo.GetMsgsByNewsletterID(ctx, tx, id)
+	if err != nil {
+		tx.Rollback(ctx)
+
+		return err
+	}
+	err = s.repo.UpdateMessageStatuses(ctx, tx, models.ParametersChanged, msgs...)
+	if err != nil {
+		tx.Rollback(ctx)
+		return err
+	}
+
+	if err := s.UpdateScheduleNewsletter(context.Background(), id, t); err != nil {
+		return err
+	}
+
+	return nil
+}
+func (s service) DeleteNewsletter(ctx context.Context, id int) error {
+	tx, err := s.repo.Tx(ctx)
+	defer tx.Commit(ctx)
+	if err != nil {
+		return err
+	}
+	t := time.Now()
+	newsletter, err := s.repo.GetNewsletterById(ctx, tx, id)
+
+	if err != nil {
+		tx.Rollback(ctx)
+		return err
+	}
+	if newsletter.EndTime != nil {
+		tx.Rollback(ctx)
+		return err
+	}
+	msgs, err := s.repo.GetMsgsByNewsletterID(ctx, tx, id)
+	if err != nil {
+		tx.Rollback(ctx)
+
+		return err
+	}
+	if err := s.repo.UpdateMessageStatuses(ctx, tx, models.NewsletterDeleted, msgs...); err != nil {
+		return err
+	}
+	if err := s.DeleteFromScheduleNewsletter(ctx, id); err != nil {
+		return err
+	}
+	if err := s.repo.UpdateNewsletterEndTime(ctx, tx, id, &t); err != nil {
+		return err
+	}
 	return nil
 }
