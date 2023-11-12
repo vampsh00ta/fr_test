@@ -25,7 +25,7 @@ type Message struct {
 	Id           int        `json:"id" db:"id"`
 	SendTime     *time.Time `json:"send_time" db:"send_time" `
 	CreationTime *time.Time `json:"creation_time" db:"creation_time"`
-	Status       Status     `json:"text" db:"-"  example:"status"`
+	Status       Status     `json:"text" db:"-"  `
 	NewsletterId int        `json:"newsletter_id" db:"newsletter_id" `
 	ClientId     int        `json:"client_id" db:"client_id"`
 }
@@ -35,19 +35,19 @@ type Status struct {
 	Time *time.Time `json:"time" db:"time" `
 }
 type Newsletter struct {
-	Id        int        `json:"id" db:"id"`
-	StartTime *time.Time `json:"start_time" db:"start_time" binding:"required"`
-	EndTime   *time.Time `db:"end_time"`
+	Id        int        `json:"-" db:"id"`
+	StartTime *time.Time `json:"start_time" db:"start_time" binding:"required" example:"2023-11-12T16:45:00Z"`
+	EndTime   *time.Time `json:"-" db:"end_time"`
 	Text      string     `json:"text" db:"text" binding:"required"`
-	Messages  []Message
-	Filter    Filter `json:"filter"`
+	Messages  []Message  `json:"-"`
+	Filter    Filter     `json:"filter"`
 }
 type Filter struct {
-	MobileCodes []string `json:"mobile_code,omitempty" db:"mobile_code" "  example:"7"`
+	MobileCodes []string `json:"mobile_code,omitempty" db:"mobile_code" example:"test"`
 	Tag         []string `json:"tag" db:"id"  example:"tag"`
 }
 
-type MessageClient struct {
+type MessageFull struct {
 	MessageId    int        `json:"message_id" db:"message_id"`
 	SendTime     *time.Time `json:"send_time" db:"send_time" `
 	CreationTime *time.Time `json:"creation_time" db:"creation_time"`
@@ -59,4 +59,14 @@ type MessageClient struct {
 	Tag          string     `json:"tag" db:"tag" `
 	Timezone     string     `json:"timezone" db:"timezone"`
 	Text         string     `json:"text" db:"text" `
+}
+
+type MessageStatus struct {
+	SendTime     *time.Time `json:"send_time" db:"send_time" `
+	CreationTime *time.Time `json:"creation_time" db:"creation_time"`
+	Status       Status     `json:"text" db:"-"  `
+	NewsletterId int        `json:"newsletter_id" db:"newsletter_id" `
+	ClientId     int        `json:"client_id" db:"client_id"`
+	Text         string     `json:"text" db:"text"  example:"status"`
+	Time         *time.Time `json:"time" db:"time" `
 }

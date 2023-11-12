@@ -11,14 +11,13 @@ import (
 type MessageRepository interface {
 	AddMessage(ctx context.Context, tx pgx.Tx, message models.Message) (*models.Message, error)
 	AddMessages(ctx context.Context, tx pgx.Tx, messages ...models.Message) (*[]models.Message, error)
-	GetFullMsgsByNewsletterID(ctx context.Context, tx pgx.Tx, id int) ([]models.MessageClient, error)
+	GetFullMsgsByNewsletterID(ctx context.Context, tx pgx.Tx, id int) ([]models.MessageFull, error)
 	UpdateMessageById(ctx context.Context, tx pgx.Tx, id int, status string, sendTime *time.Time) error
 	AddMessageStatusById(ctx context.Context, tx pgx.Tx, id int, status string, t *time.Time) error
 	AddMessagesStatus(ctx context.Context, tx pgx.Tx, messages ...models.Message) error
 	DeleteMessagesByNewsletterId(ctx context.Context, tx pgx.Tx, id int) error
 	UpdateStatusByNewsletterId(ctx context.Context, tx pgx.Tx, id int, t *time.Time, text string) error
 	UpdateMessageStatuses(ctx context.Context, tx pgx.Tx, status string, messages ...models.Message) error
-
 	GetMsgsByNewsletterID(ctx context.Context, tx pgx.Tx, id int) ([]models.Message, error)
 }
 
@@ -85,7 +84,7 @@ func (pg Pg) AddMessages(ctx context.Context, tx pgx.Tx, messages ...models.Mess
 	return &msgs, nil
 }
 
-func (pg Pg) GetFullMsgsByNewsletterID(ctx context.Context, tx pgx.Tx, id int) ([]models.MessageClient, error) {
+func (pg Pg) GetFullMsgsByNewsletterID(ctx context.Context, tx pgx.Tx, id int) ([]models.MessageFull, error) {
 	var err error
 	if tx == nil {
 		tx, err = pg.client.Begin(ctx)
@@ -104,7 +103,7 @@ func (pg Pg) GetFullMsgsByNewsletterID(ctx context.Context, tx pgx.Tx, id int) (
 	if err != nil {
 		return nil, err
 	}
-	fullMsgs, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.MessageClient])
+	fullMsgs, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.MessageFull])
 	if err != nil {
 		return nil, err
 	}

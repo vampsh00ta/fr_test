@@ -72,11 +72,11 @@ func (s service) SendNewsletter(ctx context.Context, id int) error {
 		return err
 	}
 
-	msg_to_send := make(chan models.MessageClient, len(msgs))
-	result := make(chan models.MessageClient, len(msgs))
+	msg_to_send := make(chan models.MessageFull, len(msgs))
+	result := make(chan models.MessageFull, len(msgs))
 	allDone := true
 	for w := 1; w <= 10; w++ {
-		go func(id int, msg_to_send <-chan models.MessageClient, result chan<- models.MessageClient) {
+		go func(id int, msg_to_send <-chan models.MessageFull, result chan<- models.MessageFull) {
 			for j := range msg_to_send {
 				resp, err := sendMsg(j)
 				if err != nil || resp.Code != 0 {

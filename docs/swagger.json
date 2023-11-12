@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a sample server Petstore server.",
+        "description": "This is a sample server celler server.",
         "title": "Swagger Example API",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
@@ -15,9 +15,265 @@
         },
         "version": "1.0"
     },
-    "host": "petstore.swagger.io",
-    "basePath": "/v2",
+    "host": "localhost:8000",
+    "basePath": "/v1",
     "paths": {
+        "/client": {
+            "put": {
+                "description": "Изменяет  запись клиента",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Client"
+                ],
+                "summary": "Update",
+                "parameters": [
+                    {
+                        "description": "username",
+                        "name": "username",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.updateClientRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Удаляет  запись клиента",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Client"
+                ],
+                "summary": "Delete",
+                "parameters": [
+                    {
+                        "description": "username",
+                        "name": "username",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.deleteClientRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/client/add": {
+            "post": {
+                "description": "Создает запись клиента",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Client"
+                ],
+                "summary": "Add",
+                "parameters": [
+                    {
+                        "description": "username",
+                        "name": "username",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.addClientRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/newsletter": {
+            "delete": {
+                "description": "Удаляет рассылку",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Newsletter"
+                ],
+                "summary": "Delete",
+                "parameters": [
+                    {
+                        "description": "username",
+                        "name": "username",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.deleteNewsletterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Изменяет рассылку",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Newsletter"
+                ],
+                "summary": "Update",
+                "parameters": [
+                    {
+                        "description": "username",
+                        "name": "username",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.updateNewsletterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    }
+                }
+            }
+        },
         "/newsletter/create": {
             "post": {
                 "description": "Создает рассылку",
@@ -30,7 +286,7 @@
                 "tags": [
                     "Newsletter"
                 ],
-                "summary": "CreateNewsletter",
+                "summary": "Create",
                 "parameters": [
                     {
                         "description": "username",
@@ -38,7 +294,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_transport_http_v1.createNewsletterRequest"
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.createNewsletterRequest"
                         }
                     }
                 ],
@@ -46,25 +302,25 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/internal_transport_http_v1.response"
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_transport_http_v1.response"
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/internal_transport_http_v1.response"
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_transport_http_v1.response"
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
                         }
                     }
                 }
@@ -72,23 +328,212 @@
         }
     },
     "definitions": {
-        "fr_internal_repository_models.Status": {
+        "fr_internal_transport_http_v1.addClientRequest": {
             "type": "object",
+            "required": [
+                "mobile_code",
+                "tag",
+                "tel_number",
+                "timezone"
+            ],
             "properties": {
                 "id": {
                     "type": "integer"
                 },
-                "text": {
+                "mobile_code": {
                     "type": "string",
-                    "example": "status"
+                    "example": "7"
                 },
-                "time": {
+                "tag": {
+                    "type": "string",
+                    "example": "tag"
+                },
+                "tel_number": {
+                    "type": "string",
+                    "example": "9999999999"
+                },
+                "timezone": {
+                    "type": "string",
+                    "example": "UTC"
+                }
+            }
+        },
+        "fr_internal_transport_http_v1.createNewsletterRequest": {
+            "type": "object",
+            "required": [
+                "start_time",
+                "text"
+            ],
+            "properties": {
+                "filter": {
+                    "$ref": "#/definitions/models.Filter"
+                },
+                "start_time": {
+                    "type": "string",
+                    "example": "2023-11-12T16:45:00Z"
+                },
+                "text": {
                     "type": "string"
                 }
             }
         },
+        "fr_internal_transport_http_v1.deleteClientRequest": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "fr_internal_transport_http_v1.deleteNewsletterRequest": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "fr_internal_transport_http_v1.response": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "fr_internal_transport_http_v1.updateClientRequest": {
+            "type": "object",
+            "required": [
+                "mobile_code",
+                "tag",
+                "tel_number",
+                "timezone"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "mobile_code": {
+                    "type": "string",
+                    "example": "7"
+                },
+                "tag": {
+                    "type": "string",
+                    "example": "tag"
+                },
+                "tel_number": {
+                    "type": "string",
+                    "example": "9999999999"
+                },
+                "timezone": {
+                    "type": "string",
+                    "example": "UTC"
+                }
+            }
+        },
+        "fr_internal_transport_http_v1.updateNewsletterRequest": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "text": {
+                    "type": "string",
+                    "example": "1"
+                },
+                "time": {
+                    "type": "string",
+                    "example": "1"
+                }
+            }
+        },
+        "internal_transport_http_v1.addClientRequest": {
+            "type": "object",
+            "required": [
+                "mobile_code",
+                "tag",
+                "tel_number",
+                "timezone"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "mobile_code": {
+                    "type": "string",
+                    "example": "7"
+                },
+                "tag": {
+                    "type": "string",
+                    "example": "tag"
+                },
+                "tel_number": {
+                    "type": "string",
+                    "example": "9999999999"
+                },
+                "timezone": {
+                    "type": "string",
+                    "example": "UTC"
+                }
+            }
+        },
         "internal_transport_http_v1.createNewsletterRequest": {
-            "type": "object"
+            "type": "object",
+            "required": [
+                "start_time",
+                "text"
+            ],
+            "properties": {
+                "filter": {
+                    "$ref": "#/definitions/models.Filter"
+                },
+                "start_time": {
+                    "type": "string",
+                    "example": "2023-11-12T16:45:00Z"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_transport_http_v1.deleteClientRequest": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "internal_transport_http_v1.deleteNewsletterRequest": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
         },
         "internal_transport_http_v1.response": {
             "type": "object",
@@ -100,6 +545,84 @@
                     "type": "string"
                 }
             }
+        },
+        "internal_transport_http_v1.updateClientRequest": {
+            "type": "object",
+            "required": [
+                "mobile_code",
+                "tag",
+                "tel_number",
+                "timezone"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "mobile_code": {
+                    "type": "string",
+                    "example": "7"
+                },
+                "tag": {
+                    "type": "string",
+                    "example": "tag"
+                },
+                "tel_number": {
+                    "type": "string",
+                    "example": "9999999999"
+                },
+                "timezone": {
+                    "type": "string",
+                    "example": "UTC"
+                }
+            }
+        },
+        "internal_transport_http_v1.updateNewsletterRequest": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "text": {
+                    "type": "string",
+                    "example": "1"
+                },
+                "time": {
+                    "type": "string",
+                    "example": "1"
+                }
+            }
+        },
+        "models.Filter": {
+            "type": "object",
+            "properties": {
+                "mobile_code": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "test"
+                    ]
+                },
+                "tag": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "tag"
+                    ]
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
         }
     }
 }

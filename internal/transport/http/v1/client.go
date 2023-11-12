@@ -5,6 +5,17 @@ import (
 	"net/http"
 )
 
+// @Summary     Add
+// @Description Создает запись клиента
+// @Tags        Client
+// @Accept      json
+// @Param       username body addClientRequest true "username"
+// @Produce     json
+// @Success     201 {object} response
+// @Failure     400 {object} response
+// @Failure     404 {object} response
+// @Failure     500 {object} response
+// @Router      /client/add [post]
 func (t transport) addClient(ctx *gin.Context) {
 	var request addClientRequest
 	if err := ctx.BindJSON(&request); err != nil {
@@ -24,6 +35,17 @@ func (t transport) addClient(ctx *gin.Context) {
 
 }
 
+// @Summary     Update
+// @Description Изменяет  запись клиента
+// @Tags        Client
+// @Accept      json
+// @Param       username body updateClientRequest true "username"
+// @Produce     json
+// @Success     200 {object} response
+// @Failure     400 {object} response
+// @Failure     404 {object} response
+// @Failure     500 {object} response
+// @Router      /client [put]
 func (t transport) updateClient(ctx *gin.Context) {
 	var request updateClientRequest
 	if err := ctx.BindJSON(&request); err != nil {
@@ -43,6 +65,17 @@ func (t transport) updateClient(ctx *gin.Context) {
 
 }
 
+// @Summary     Delete
+// @Description Удаляет  запись клиента
+// @Tags        Client
+// @Accept      json
+// @Param       username body deleteClientRequest true "username"
+// @Produce     json
+// @Success     200 {object} response
+// @Failure     400 {object} response
+// @Failure     404 {object} response
+// @Failure     500 {object} response
+// @Router      /client [delete]
 func (t transport) deleteClient(ctx *gin.Context) {
 	var request deleteClientRequest
 	if err := ctx.BindJSON(&request); err != nil {

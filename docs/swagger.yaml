@@ -1,16 +1,149 @@
-basePath: /v2
+basePath: /v1
 definitions:
-  fr_internal_repository_models.Status:
+  fr_internal_transport_http_v1.addClientRequest:
     properties:
       id:
         type: integer
-      text:
-        example: status
+      mobile_code:
+        example: "7"
         type: string
-      time:
+      tag:
+        example: tag
+        type: string
+      tel_number:
+        example: "9999999999"
+        type: string
+      timezone:
+        example: UTC
+        type: string
+    required:
+    - mobile_code
+    - tag
+    - tel_number
+    - timezone
+    type: object
+  fr_internal_transport_http_v1.createNewsletterRequest:
+    properties:
+      filter:
+        $ref: '#/definitions/models.Filter'
+      start_time:
+        example: "2023-11-12T16:45:00Z"
+        type: string
+      text:
+        type: string
+    required:
+    - start_time
+    - text
+    type: object
+  fr_internal_transport_http_v1.deleteClientRequest:
+    properties:
+      id:
+        example: 1
+        type: integer
+    required:
+    - id
+    type: object
+  fr_internal_transport_http_v1.deleteNewsletterRequest:
+    properties:
+      id:
+        example: 1
+        type: integer
+    required:
+    - id
+    type: object
+  fr_internal_transport_http_v1.response:
+    properties:
+      error:
+        type: string
+      status:
         type: string
     type: object
+  fr_internal_transport_http_v1.updateClientRequest:
+    properties:
+      id:
+        type: integer
+      mobile_code:
+        example: "7"
+        type: string
+      tag:
+        example: tag
+        type: string
+      tel_number:
+        example: "9999999999"
+        type: string
+      timezone:
+        example: UTC
+        type: string
+    required:
+    - mobile_code
+    - tag
+    - tel_number
+    - timezone
+    type: object
+  fr_internal_transport_http_v1.updateNewsletterRequest:
+    properties:
+      id:
+        example: 1
+        type: integer
+      text:
+        example: "1"
+        type: string
+      time:
+        example: "1"
+        type: string
+    required:
+    - id
+    type: object
+  internal_transport_http_v1.addClientRequest:
+    properties:
+      id:
+        type: integer
+      mobile_code:
+        example: "7"
+        type: string
+      tag:
+        example: tag
+        type: string
+      tel_number:
+        example: "9999999999"
+        type: string
+      timezone:
+        example: UTC
+        type: string
+    required:
+    - mobile_code
+    - tag
+    - tel_number
+    - timezone
+    type: object
   internal_transport_http_v1.createNewsletterRequest:
+    properties:
+      filter:
+        $ref: '#/definitions/models.Filter'
+      start_time:
+        example: "2023-11-12T16:45:00Z"
+        type: string
+      text:
+        type: string
+    required:
+    - start_time
+    - text
+    type: object
+  internal_transport_http_v1.deleteClientRequest:
+    properties:
+      id:
+        example: 1
+        type: integer
+    required:
+    - id
+    type: object
+  internal_transport_http_v1.deleteNewsletterRequest:
+    properties:
+      id:
+        example: 1
+        type: integer
+    required:
+    - id
     type: object
   internal_transport_http_v1.response:
     properties:
@@ -19,13 +152,64 @@ definitions:
       status:
         type: string
     type: object
-host: petstore.swagger.io
+  internal_transport_http_v1.updateClientRequest:
+    properties:
+      id:
+        type: integer
+      mobile_code:
+        example: "7"
+        type: string
+      tag:
+        example: tag
+        type: string
+      tel_number:
+        example: "9999999999"
+        type: string
+      timezone:
+        example: UTC
+        type: string
+    required:
+    - mobile_code
+    - tag
+    - tel_number
+    - timezone
+    type: object
+  internal_transport_http_v1.updateNewsletterRequest:
+    properties:
+      id:
+        example: 1
+        type: integer
+      text:
+        example: "1"
+        type: string
+      time:
+        example: "1"
+        type: string
+    required:
+    - id
+    type: object
+  models.Filter:
+    properties:
+      mobile_code:
+        example:
+        - test
+        items:
+          type: string
+        type: array
+      tag:
+        example:
+        - tag
+        items:
+          type: string
+        type: array
+    type: object
+host: localhost:8000
 info:
   contact:
     email: support@swagger.io
     name: API Support
     url: http://www.swagger.io/support
-  description: This is a sample server Petstore server.
+  description: This is a sample server celler server.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -33,6 +217,174 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
+  /client:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет  запись клиента
+      parameters:
+      - description: username
+        in: body
+        name: username
+        required: true
+        schema:
+          $ref: '#/definitions/fr_internal_transport_http_v1.deleteClientRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+      summary: Delete
+      tags:
+      - Client
+    put:
+      consumes:
+      - application/json
+      description: Изменяет  запись клиента
+      parameters:
+      - description: username
+        in: body
+        name: username
+        required: true
+        schema:
+          $ref: '#/definitions/fr_internal_transport_http_v1.updateClientRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+      summary: Update
+      tags:
+      - Client
+  /client/add:
+    post:
+      consumes:
+      - application/json
+      description: Создает запись клиента
+      parameters:
+      - description: username
+        in: body
+        name: username
+        required: true
+        schema:
+          $ref: '#/definitions/fr_internal_transport_http_v1.addClientRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+      summary: Add
+      tags:
+      - Client
+  /newsletter:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет рассылку
+      parameters:
+      - description: username
+        in: body
+        name: username
+        required: true
+        schema:
+          $ref: '#/definitions/fr_internal_transport_http_v1.deleteNewsletterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+      summary: Delete
+      tags:
+      - Newsletter
+    patch:
+      consumes:
+      - application/json
+      description: Изменяет рассылку
+      parameters:
+      - description: username
+        in: body
+        name: username
+        required: true
+        schema:
+          $ref: '#/definitions/fr_internal_transport_http_v1.updateNewsletterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+      summary: Update
+      tags:
+      - Newsletter
   /newsletter/create:
     post:
       consumes:
@@ -44,27 +396,30 @@ paths:
         name: username
         required: true
         schema:
-          $ref: '#/definitions/internal_transport_http_v1.createNewsletterRequest'
+          $ref: '#/definitions/fr_internal_transport_http_v1.createNewsletterRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/internal_transport_http_v1.response'
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/internal_transport_http_v1.response'
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/internal_transport_http_v1.response'
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_transport_http_v1.response'
-      summary: CreateNewsletter
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+      summary: Create
       tags:
       - Newsletter
+securityDefinitions:
+  BasicAuth:
+    type: basic
 swagger: "2.0"

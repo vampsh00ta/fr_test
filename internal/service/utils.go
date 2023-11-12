@@ -17,7 +17,7 @@ type ResponseBody struct {
 	Code    int    `json:"code"`
 }
 
-func sendMsg(msg_user models.MessageClient) (*ResponseBody, error) {
+func sendMsg(msg_user models.MessageFull) (*ResponseBody, error) {
 	body := struct {
 		Id    int
 		Phone int

@@ -5,17 +5,17 @@ import (
 	"net/http"
 )
 
-// @Summary		CreateNewsletter
-// @Description	Создает рассылку
-// @Tags			Newsletter
-// @Accept			json
-// @Param  		username   body      createNewsletterRequest  true  "username"
-// @Produce		json
-// @Success		201 {object}    response
-// @Failure		400	{object}	response
-// @Failure		404	{object}	response
-// @Failure		500	{object}	response
-// @Router			/newsletter/create [post]
+// @Summary     Create
+// @Description Создает рассылку.Если убрать фильтр, то добавит в рассылку всех клиентов
+// @Tags        Newsletter
+// @Accept      json
+// @Param       username body createNewsletterRequest true "username"
+// @Produce     json
+// @Success     201 {object} response
+// @Failure     400 {object} response
+// @Failure     404 {object} response
+// @Failure     500 {object} response
+// @Router      /newsletter/create [post]
 func (t transport) createNewsletter(ctx *gin.Context) {
 	var request createNewsletterRequest
 	if err := ctx.BindJSON(&request); err != nil {
@@ -35,6 +35,17 @@ func (t transport) createNewsletter(ctx *gin.Context) {
 
 }
 
+// @Summary     Delete
+// @Description Удаляет рассылку
+// @Tags        Newsletter
+// @Accept      json
+// @Param       username body deleteNewsletterRequest true "username"
+// @Produce     json
+// @Success     200 {object} response
+// @Failure     400 {object} response
+// @Failure     404 {object} response
+// @Failure     500 {object} response
+// @Router      /newsletter [delete]
 func (t transport) deleteNewsletter(ctx *gin.Context) {
 	var request deleteNewsletterRequest
 	if err := ctx.BindJSON(&request); err != nil {
@@ -51,9 +62,21 @@ func (t transport) deleteNewsletter(ctx *gin.Context) {
 		return
 
 	}
-	ctx.JSON(http.StatusCreated, &response{Status: "ok"})
+	ctx.JSON(http.StatusOK, &response{Status: "ok"})
 
 }
+
+// @Summary     Update
+// @Description Изменяет рассылку
+// @Tags        Newsletter
+// @Accept      json
+// @Param       username body updateNewsletterRequest true "username"
+// @Produce     json
+// @Success     200 {object} response
+// @Failure     400 {object} response
+// @Failure     404 {object} response
+// @Failure     500 {object} response
+// @Router      /newsletter [patch]
 func (t transport) updateNewsletter(ctx *gin.Context) {
 	var request updateNewsletterRequest
 	if err := ctx.BindJSON(&request); err != nil {
