@@ -11,6 +11,7 @@ type Service interface {
 	Client
 	Newsletter
 	Scheduler
+	Message
 }
 type service struct {
 	repo      repository.Repository

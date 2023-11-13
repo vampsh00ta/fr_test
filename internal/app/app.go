@@ -32,9 +32,7 @@ func Run(cfg *config.Config) {
 
 	// Service
 	srvc := service.New(repo)
-	err = srvc.SendNewsletter(ctx, 4)
 
-	fmt.Println(err)
 	// HTTP Server
 	handler := gin.New()
 

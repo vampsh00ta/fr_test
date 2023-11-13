@@ -29,7 +29,7 @@ func newTransport(handler *gin.RouterGroup, t service.Service, l logger.Interfac
 		h2.POST("/create", r.createNewsletter)
 		h2.DELETE("/", r.deleteNewsletter)
 		h2.PATCH("/", r.updateNewsletter)
-		h2.GET("/messages", r.updateNewsletter)
+		h2.GET("/:id/messages", r.getLastMessageStatuses)
 
 	}
 }
@@ -38,7 +38,7 @@ func NewRouter(handler *gin.Engine, l logger.Interface, t service.Service) {
 	handler.Use(gin.Logger())
 	handler.Use(gin.Recovery())
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"*"}
+	config.AllowOrigins = []string{"localhost:8000"}
 	// Swagger
 	swaggerHandler := ginSwagger.DisablingWrapHandler(swaggerFiles.Handler, "DISABLE_SWAGGER_HTTP_HANDLER")
 	handler.GET("/docs/*any", swaggerHandler)

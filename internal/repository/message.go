@@ -19,6 +19,7 @@ type MessageRepository interface {
 	UpdateStatusByNewsletterId(ctx context.Context, tx pgx.Tx, id int, t *time.Time, text string) error
 	UpdateMessageStatuses(ctx context.Context, tx pgx.Tx, status string, messages ...models.Message) error
 	GetMsgsByNewsletterID(ctx context.Context, tx pgx.Tx, id int) ([]models.Message, error)
+	GetLastStatusesByNewsletterId(ctx context.Context, tx pgx.Tx, id int, status string) ([]models.MessageStatus, error)
 }
 
 func (pg Pg) AddMessage(ctx context.Context, tx pgx.Tx, message models.Message) (*models.Message, error) {
@@ -268,4 +269,43 @@ func (pg Pg) UpdateMessageStatuses(ctx context.Context, tx pgx.Tx, status string
 	}
 
 	return nil
+}
+
+func (pg Pg) GetLastStatusesByNewsletterId(ctx context.Context, tx pgx.Tx, id int, status string) ([]models.MessageStatus, error) {
+	var err error
+
+	if tx == nil {
+		tx, err = pg.client.Begin(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	input := []any{id}
+	q := `  select message.*,text,time from message
+			join (
+				select * from (
+					SELECT *, ROW_NUMBER() OVER (PARTITION BY message_id ORDER BY time DESC
+					) AS rank_no FROM status    ORDER BY message_id desc) 
+				as rd where rd.rank_no = 1) 
+				as status on status.message_id = message.id 
+			
+
+		 `
+	if status != "" {
+		q += `where newsletter_id = $1 and text = $2 order by newsletter_id desc`
+		input = append(input, status)
+	} else {
+		q += `where newsletter_id = $1  order by newsletter_id desc`
+	}
+	rows, err := tx.Query(ctx, q, input...)
+
+	if err != nil {
+		return nil, err
+	}
+	msgs, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.MessageStatus])
+	if err != nil {
+		return nil, err
+	}
+
+	return msgs, nil
 }

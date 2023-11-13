@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"github.com/go-co-op/gocron"
 	"strconv"
 	"time"
@@ -43,7 +42,6 @@ func (s service) UpdateScheduleNewsletter(ctx context.Context, newsletterId int,
 	job, err := s.scheduler.Every(1).Second().
 		StartAt(*t).Tag(strconv.Itoa(newsletterId)).
 		DoWithJobDetails(s.schedulerNewsletter, ctx, newsletterId)
-	fmt.Println(job)
 	if err != nil {
 		return job.Error()
 	}
@@ -54,7 +52,6 @@ func (s service) UpdateScheduleNewsletter(ctx context.Context, newsletterId int,
 func (s service) schedulerNewsletter(ctx context.Context, newsletterId int, job gocron.Job) {
 
 	err := s.SendNewsletter(ctx, newsletterId)
-	fmt.Println(123)
 	if err == nil || job.RunCount() == 0 {
 		s.scheduler.RemoveByTag(strconv.Itoa(newsletterId))
 	}

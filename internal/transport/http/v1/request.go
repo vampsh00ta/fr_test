@@ -27,3 +27,7 @@ type updateNewsletterRequest struct {
 	Time *time.Time `json:"time" example:"1"`
 	Text string     `json:"text" example:"1"`
 }
+
+type getLastMessageStatusesRequest struct {
+	Id int `json:"id"  binding:"required"  example:"1"`
+}

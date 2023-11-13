@@ -146,9 +146,10 @@ func (s service) UpdateNewsletter(ctx context.Context, id int, t *time.Time, tex
 		tx.Rollback(ctx)
 		return err
 	}
-
-	if err := s.UpdateScheduleNewsletter(context.Background(), id, t); err != nil {
-		return err
+	if t != nil {
+		if err := s.UpdateScheduleNewsletter(context.Background(), id, t); err != nil {
+			return err
+		}
 	}
 
 	return nil

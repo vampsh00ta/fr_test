@@ -39,7 +39,7 @@ func (t transport) addClient(ctx *gin.Context) {
 // @Description Изменяет  запись клиента
 // @Tags        Client
 // @Accept      json
-// @Param       username body updateClientRequest true "username"
+// @Param       username body updateClientRequest true "body"
 // @Produce     json
 // @Success     200 {object} response
 // @Failure     400 {object} response
@@ -69,7 +69,7 @@ func (t transport) updateClient(ctx *gin.Context) {
 // @Description Удаляет  запись клиента
 // @Tags        Client
 // @Accept      json
-// @Param       username body deleteClientRequest true "username"
+// @Param       username body deleteClientRequest true "body"
 // @Produce     json
 // @Success     200 {object} response
 // @Failure     400 {object} response
@@ -94,29 +94,3 @@ func (t transport) deleteClient(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, &response{Status: "ok"})
 
 }
-
-//func (t transport) deleteClient(ctx *gin.Context) {
-//	var request addClientRequest
-//	if err := json.NewDecoder(ctx.Request.Body).Decode(&request); err != nil {
-//		t.logger.Error(err, "http-v1-deleteClient")
-//		errorResponse(ctx, http.StatusBadRequest, err)
-//	}
-//	if err := t.service.AddClient(ctx.Request.Context(), request.Client); err != nil {
-//		t.logger.Error(err, "http-v1-deleteClient")
-//		errorResponse(ctx, http.StatusInternalServerError, err)
-//	}
-//	ctx.JSON(201, response{Status: "ok"})
-//}
-//
-//func (t transport) changeClient(ctx *gin.Context) {
-//	var request addClientRequest
-//	if err := json.NewDecoder(ctx.Request.Body).Decode(&request); err != nil {
-//		t.logger.Error(err, "http-v1-changeClient")
-//		errorResponse(ctx, http.StatusBadRequest, err)
-//	}
-//	if err := t.service.AddClient(ctx.Request.Context(), request.Client); err != nil {
-//		t.logger.Error(err, "http-v1-changeClient")
-//		errorResponse(ctx, http.StatusInternalServerError, err)
-//	}
-//	ctx.JSON(201, response{Status: "ok"})
-//}

@@ -51,6 +51,8 @@ definitions:
     required:
     - id
     type: object
+  fr_internal_transport_http_v1.getLastMessageStatusesResponse:
+    type: object
   fr_internal_transport_http_v1.response:
     properties:
       error:
@@ -145,6 +147,8 @@ definitions:
     required:
     - id
     type: object
+  internal_transport_http_v1.getLastMessageStatusesResponse:
+    type: object
   internal_transport_http_v1.response:
     properties:
       error:
@@ -203,7 +207,7 @@ definitions:
           type: string
         type: array
     type: object
-host: localhost:8000
+host: 127.0.0.1:8000
 info:
   contact:
     email: support@swagger.io
@@ -223,31 +227,31 @@ paths:
       - application/json
       description: Удаляет  запись клиента
       parameters:
-      - description: username
+      - description: body
         in: body
         name: username
         required: true
         schema:
-          $ref: '#/definitions/fr_internal_transport_http_v1.deleteClientRequest'
+          $ref: '#/definitions/internal_transport_http_v1.deleteClientRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+            $ref: '#/definitions/internal_transport_http_v1.response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+            $ref: '#/definitions/internal_transport_http_v1.response'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+            $ref: '#/definitions/internal_transport_http_v1.response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+            $ref: '#/definitions/internal_transport_http_v1.response'
       summary: Delete
       tags:
       - Client
@@ -256,31 +260,31 @@ paths:
       - application/json
       description: Изменяет  запись клиента
       parameters:
-      - description: username
+      - description: body
         in: body
         name: username
         required: true
         schema:
-          $ref: '#/definitions/fr_internal_transport_http_v1.updateClientRequest'
+          $ref: '#/definitions/internal_transport_http_v1.updateClientRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+            $ref: '#/definitions/internal_transport_http_v1.response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+            $ref: '#/definitions/internal_transport_http_v1.response'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+            $ref: '#/definitions/internal_transport_http_v1.response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+            $ref: '#/definitions/internal_transport_http_v1.response'
       summary: Update
       tags:
       - Client
@@ -295,26 +299,26 @@ paths:
         name: username
         required: true
         schema:
-          $ref: '#/definitions/fr_internal_transport_http_v1.addClientRequest'
+          $ref: '#/definitions/internal_transport_http_v1.addClientRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+            $ref: '#/definitions/internal_transport_http_v1.response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+            $ref: '#/definitions/internal_transport_http_v1.response'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+            $ref: '#/definitions/internal_transport_http_v1.response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+            $ref: '#/definitions/internal_transport_http_v1.response'
       summary: Add
       tags:
       - Client
@@ -324,7 +328,7 @@ paths:
       - application/json
       description: Удаляет рассылку
       parameters:
-      - description: username
+      - description: body
         in: body
         name: username
         required: true
@@ -357,7 +361,7 @@ paths:
       - application/json
       description: Изменяет рассылку
       parameters:
-      - description: username
+      - description: body
         in: body
         name: username
         required: true
@@ -385,13 +389,51 @@ paths:
       summary: Update
       tags:
       - Newsletter
+  /newsletter/{id}/messages:
+    get:
+      consumes:
+      - application/json
+      description: Выводит последние статусы сообщения по id рассылки
+      parameters:
+      - description: Newsletter ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: status
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.getLastMessageStatusesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+      summary: GetLastMessageStatuses
+      tags:
+      - Newsletter
   /newsletter/create:
     post:
       consumes:
       - application/json
-      description: Создает рассылку
+      description: Создает рассылку.Если убрать фильтр, то добавит в рассылку всех
+        клиентов
       parameters:
-      - description: username
+      - description: body
         in: body
         name: username
         required: true

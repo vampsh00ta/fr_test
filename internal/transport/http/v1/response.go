@@ -21,3 +21,6 @@ type createClientResponse struct {
 type createNewsletterResponse struct {
 	Id int `json:"id"  binding:"required"  example:"1"`
 }
+type getLastMessageStatusesResponse struct {
+	Messages []models.MessageStatus `json:"messages"  binding:"required"  example:"1"`
+}

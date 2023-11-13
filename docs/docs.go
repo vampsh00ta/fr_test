@@ -40,12 +40,12 @@ const docTemplate = `{
                 "summary": "Update",
                 "parameters": [
                     {
-                        "description": "username",
+                        "description": "body",
                         "name": "username",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.updateClientRequest"
+                            "$ref": "#/definitions/internal_transport_http_v1.updateClientRequest"
                         }
                     }
                 ],
@@ -53,25 +53,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                            "$ref": "#/definitions/internal_transport_http_v1.response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                            "$ref": "#/definitions/internal_transport_http_v1.response"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                            "$ref": "#/definitions/internal_transport_http_v1.response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                            "$ref": "#/definitions/internal_transport_http_v1.response"
                         }
                     }
                 }
@@ -90,12 +90,12 @@ const docTemplate = `{
                 "summary": "Delete",
                 "parameters": [
                     {
-                        "description": "username",
+                        "description": "body",
                         "name": "username",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.deleteClientRequest"
+                            "$ref": "#/definitions/internal_transport_http_v1.deleteClientRequest"
                         }
                     }
                 ],
@@ -103,25 +103,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                            "$ref": "#/definitions/internal_transport_http_v1.response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                            "$ref": "#/definitions/internal_transport_http_v1.response"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                            "$ref": "#/definitions/internal_transport_http_v1.response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                            "$ref": "#/definitions/internal_transport_http_v1.response"
                         }
                     }
                 }
@@ -147,7 +147,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.addClientRequest"
+                            "$ref": "#/definitions/internal_transport_http_v1.addClientRequest"
                         }
                     }
                 ],
@@ -155,25 +155,25 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                            "$ref": "#/definitions/internal_transport_http_v1.response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                            "$ref": "#/definitions/internal_transport_http_v1.response"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                            "$ref": "#/definitions/internal_transport_http_v1.response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                            "$ref": "#/definitions/internal_transport_http_v1.response"
                         }
                     }
                 }
@@ -194,7 +194,7 @@ const docTemplate = `{
                 "summary": "Delete",
                 "parameters": [
                     {
-                        "description": "username",
+                        "description": "body",
                         "name": "username",
                         "in": "body",
                         "required": true,
@@ -244,7 +244,7 @@ const docTemplate = `{
                 "summary": "Update",
                 "parameters": [
                     {
-                        "description": "username",
+                        "description": "body",
                         "name": "username",
                         "in": "body",
                         "required": true,
@@ -283,7 +283,7 @@ const docTemplate = `{
         },
         "/newsletter/create": {
             "post": {
-                "description": "Создает рассылку",
+                "description": "Создает рассылку.Если убрать фильтр, то добавит в рассылку всех клиентов",
                 "consumes": [
                     "application/json"
                 ],
@@ -296,7 +296,7 @@ const docTemplate = `{
                 "summary": "Create",
                 "parameters": [
                     {
-                        "description": "username",
+                        "description": "body",
                         "name": "username",
                         "in": "body",
                         "required": true,
@@ -310,6 +310,62 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/newsletter/{id}/messages": {
+            "get": {
+                "description": "Выводит последние статусы сообщения по id рассылки",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Newsletter"
+                ],
+                "summary": "GetLastMessageStatuses",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Newsletter ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "status",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.getLastMessageStatusesResponse"
                         }
                     },
                     "400": {
@@ -407,6 +463,9 @@ const docTemplate = `{
                     "example": 1
                 }
             }
+        },
+        "fr_internal_transport_http_v1.getLastMessageStatusesResponse": {
+            "type": "object"
         },
         "fr_internal_transport_http_v1.response": {
             "type": "object",
@@ -542,6 +601,9 @@ const docTemplate = `{
                 }
             }
         },
+        "internal_transport_http_v1.getLastMessageStatusesResponse": {
+            "type": "object"
+        },
         "internal_transport_http_v1.response": {
             "type": "object",
             "properties": {
@@ -637,7 +699,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8000",
+	Host:             "127.0.0.1:8000",
 	BasePath:         "/v1",
 	Schemes:          []string{},
 	Title:            "Swagger Example API",

@@ -25,7 +25,7 @@ type Message struct {
 	Id           int        `json:"id" db:"id"`
 	SendTime     *time.Time `json:"send_time" db:"send_time" `
 	CreationTime *time.Time `json:"creation_time" db:"creation_time"`
-	Status       Status     `json:"text" db:"-"  `
+	Status       Status     `json:"status" db:"-"  `
 	NewsletterId int        `json:"newsletter_id" db:"newsletter_id" `
 	ClientId     int        `json:"client_id" db:"client_id"`
 }
@@ -62,11 +62,11 @@ type MessageFull struct {
 }
 
 type MessageStatus struct {
+	Id           int        `json:"id" db:"id"`
 	SendTime     *time.Time `json:"send_time" db:"send_time" `
 	CreationTime *time.Time `json:"creation_time" db:"creation_time"`
-	Status       Status     `json:"text" db:"-"  `
 	NewsletterId int        `json:"newsletter_id" db:"newsletter_id" `
 	ClientId     int        `json:"client_id" db:"client_id"`
-	Text         string     `json:"text" db:"text"  example:"status"`
+	Status       string     `json:"status" db:"text"  example:"status"`
 	Time         *time.Time `json:"time" db:"time" `
 }

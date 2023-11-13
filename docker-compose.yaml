@@ -14,8 +14,11 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+    links:
+      - migrate
     networks:
-      - db
+      -  db-network
   db:
     image: postgres:14.6
     restart: always
@@ -37,29 +40,20 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - db
+      - db-network
   migrate:
-    image: migrate/migrate:v4.15.2
-    profiles: [ "tools" ]
+    image: migrate/migrate
+    container_name: db_migrations
+    networks:
+      - db-network
     volumes:
-      - ./db/migrations:/migrations
-    entrypoint:
-      [
-        "migrate",
-        "-path",
-        "/migrations",
-        "-database",
-        "postgres://fr:fr@db:5432/fr?sslmode=disable",
-      ]
-    command: [ "up" ]
-    depends_on:
-      db:
-        condition: service_healthy
-    restart: on-failure
+      - ./migrations:/migrations
+    links:
+      - db
+    command: -path=/migrations -database postgres://fr:fr@db:5432/fr?sslmode=disable up
 
 
 networks:
-  db:
-    driver: bridge
+  db-network:
 volumes:
   psql:
