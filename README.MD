@@ -4,5 +4,5 @@
 
 \
 \
-Вся логика описана в Swagger.\
+
 Запуск приложения  - docker-compose build && docker-compose up
