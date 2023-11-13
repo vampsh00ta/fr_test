@@ -15,7 +15,7 @@ const (
 
 type Client struct {
 	Id         int    `json:"id" db:"id" `
-	TelNumber  int    `json:"tel_number,omitempty" db:"tel_number,null" binding:"required"  example:"9999999999"`
+	TelNumber  int    `json:"tel_number,omitempty" db:"tel_number,null" binding:"required"  example:"99999999"`
 	MobileCode string `json:"mobile_code,omitempty" db:"mobile_code,null" binding:"required"  example:"7"`
 	Tag        string `json:"tag" db:"tag,null" binding:"required"  example:"tag"`
 	Timezone   string `json:"timezone" db:"timezone,null" binding:"required"  example:"UTC"`

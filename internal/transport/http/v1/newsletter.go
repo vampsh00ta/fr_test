@@ -7,7 +7,7 @@ import (
 )
 
 // @Summary     Create
-// @Description Создает рассылку.Если убрать фильтр, то добавит в рассылку всех клиентов
+// @Description Создает рассылку.Если убрать фильтр, то добавит в рассылку всех клиентов.Можно добавить только 1 из фильтров.
 // @Tags        Newsletter
 // @Accept      json
 // @Param       username body createNewsletterRequest true "body"
@@ -37,7 +37,7 @@ func (t transport) createNewsletter(ctx *gin.Context) {
 }
 
 // @Summary     Delete
-// @Description Удаляет рассылку
+// @Description Удаляет рассылку.
 // @Tags        Newsletter
 // @Accept      json
 // @Param       username body deleteNewsletterRequest true "body"

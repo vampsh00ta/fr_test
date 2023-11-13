@@ -1,4 +1,3 @@
-// Package httpserver implements HTTP server.
 package httpserver
 
 import (
@@ -14,14 +13,12 @@ const (
 	_defaultShutdownTimeout = 3 * time.Second
 )
 
-// Server -.
 type Server struct {
 	server          *http.Server
 	notify          chan error
 	shutdownTimeout time.Duration
 }
 
-// New -.
 func New(handler http.Handler, opts ...Option) *Server {
 	httpServer := &http.Server{
 		Handler:      handler,
@@ -53,12 +50,10 @@ func (s *Server) start() {
 	}()
 }
 
-// Notify -.
 func (s *Server) Notify() <-chan error {
 	return s.notify
 }
 
-// Shutdown -.
 func (s *Server) Shutdown() error {
 	ctx, cancel := context.WithTimeout(context.Background(), s.shutdownTimeout)
 	defer cancel()
