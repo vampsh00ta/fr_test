@@ -22,5 +22,9 @@ type createNewsletterResponse struct {
 	Id int `json:"id"  binding:"required"  example:"1"`
 }
 type getLastMessageStatusesResponse struct {
-	Messages []models.MessageStatus `json:"messages"  binding:"required"  example:"1"`
+	Messages []models.MessageStatus `json:"messages"  binding:"required"  `
+}
+type getNewsletter struct {
+	*models.Newsletter
+	Messages []models.MessageStatus `json:"messages"  binding:"required"  `
 }

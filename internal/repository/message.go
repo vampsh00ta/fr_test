@@ -19,6 +19,7 @@ type MessageRepository interface {
 	UpdateStatusByNewsletterId(ctx context.Context, tx pgx.Tx, id int, t *time.Time, text string) error
 	UpdateMessageStatuses(ctx context.Context, tx pgx.Tx, status string, messages ...models.Message) error
 	GetMsgsByNewsletterID(ctx context.Context, tx pgx.Tx, id int) ([]models.Message, error)
+	GetStatusesByMessageId(ctx context.Context, tx pgx.Tx, id int) ([]models.MessageStatus, error)
 	GetLastStatusesByNewsletterId(ctx context.Context, tx pgx.Tx, id int, status string) ([]models.MessageStatus, error)
 }
 
@@ -308,4 +309,8 @@ func (pg Pg) GetLastStatusesByNewsletterId(ctx context.Context, tx pgx.Tx, id in
 	}
 
 	return msgs, nil
+}
+func (pg Pg) GetStatusesByMessageId(ctx context.Context, tx pgx.Tx, id int) ([]models.MessageStatus, error) {
+
+	return nil, nil
 }

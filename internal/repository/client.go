@@ -81,30 +81,40 @@ func (pg Pg) GetClientsByFilter(ctx context.Context, tx pgx.Tx, filter models.Fi
 	q := `select * from  client where`
 
 	input := make([]any, len(filter.Tag)+len(filter.MobileCodes))
+	var qTag string
+	if filter.Tag != nil {
+		qTag = ` tag in (`
+		for i, tag := range filter.Tag {
+			qTag += fmt.Sprintf("$%d,", i+1)
+			input[i] = tag
 
-	qTag := `tag in (`
-	for i, tag := range filter.Tag {
-		qTag += fmt.Sprintf("$%d,", i+1)
-		input[i] = tag
-
+		}
+		qTag = qTag[0:len(qTag)-1] + ")"
 	}
-	qTag = qTag[0:len(qTag)-1] + ")"
-
-	qCode := `mobile_code in (`
-
-	for i, code := range filter.MobileCodes {
-		qCode += fmt.Sprintf("$%d,", i+1+len(filter.Tag))
-		input[i+len(filter.Tag)] = code
-
+	if filter.Tag != nil && filter.MobileCodes != nil {
+		qTag += ` or `
 	}
-	qCode = qCode[0:len(qCode)-1] + ")"
+	var qCode string
 
-	q += qTag + ` or ` + qCode
+	if filter.MobileCodes != nil {
+		qCode = ` mobile_code in (`
+
+		for i, code := range filter.MobileCodes {
+			qCode += fmt.Sprintf("$%d,", i+1+len(filter.Tag))
+			input[i+len(filter.Tag)] = code
+
+		}
+		qCode = qCode[0:len(qCode)-1] + ")"
+	}
+
+	q += qTag + qCode
+	fmt.Println(q, input)
 	rows, err := tx.Query(ctx, q, input...)
 	if err != nil {
 		return nil, err
 	}
 	clients, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.Client])
+	fmt.Println(clients, err)
 	if err != nil {
 		return nil, err
 	}

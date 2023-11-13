@@ -30,6 +30,7 @@ func newTransport(handler *gin.RouterGroup, t service.Service, l logger.Interfac
 		h2.DELETE("/", r.deleteNewsletter)
 		h2.PATCH("/", r.updateNewsletter)
 		h2.GET("/:id/messages", r.getLastMessageStatuses)
+		h2.GET("/:id", r.getNewsletter)
 
 	}
 }

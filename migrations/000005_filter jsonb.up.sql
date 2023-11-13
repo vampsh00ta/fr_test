@@ -1,0 +1,1 @@
+alter table newsletter add column if not exists filter jsonb;

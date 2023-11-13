@@ -134,3 +134,34 @@ func (t transport) getLastMessageStatuses(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, &getLastMessageStatusesResponse{msgs})
 
 }
+
+// @Summary     GetNewsletter
+// @Description Выводит информацию о рассылке
+// @Tags        Newsletter
+// @Accept      json
+// @Param       id   path      int  true  "Newsletter ID"
+// @Produce     json
+// @Success     200 {object} getNewsletter
+// @Failure     400 {object} response
+// @Failure     404 {object} response
+// @Failure     500 {object} response
+// @Router      /newsletter/{id} [get]
+func (t transport) getNewsletter(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		t.logger.Error(err, "http-v1-getLastMessageStatuses")
+		errorResponse(ctx, http.StatusBadRequest, ValidationError)
+		return
+
+	}
+	newsletter, err := t.service.GetNewsletter(ctx.Request.Context(), id)
+	if err != nil {
+		t.logger.Error(err, "http-v1-getLastMessageStatuses")
+		errorResponse(ctx, http.StatusInternalServerError, ServerError)
+		return
+
+	}
+	ctx.JSON(http.StatusOK, &getNewsletter{newsletter, newsletter.Messages})
+
+}

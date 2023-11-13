@@ -11,8 +11,8 @@ definitions:
         example: tag
         type: string
       tel_number:
-        example: "9999999999"
-        type: string
+        example: 9999999999
+        type: integer
       timezone:
         example: UTC
         type: string
@@ -52,6 +52,31 @@ definitions:
     - id
     type: object
   fr_internal_transport_http_v1.getLastMessageStatusesResponse:
+    properties:
+      messages:
+        items:
+          $ref: '#/definitions/models.MessageStatus'
+        type: array
+    required:
+    - messages
+    type: object
+  fr_internal_transport_http_v1.getNewsletter:
+    properties:
+      filter:
+        $ref: '#/definitions/models.Filter'
+      messages:
+        items:
+          $ref: '#/definitions/models.MessageStatus'
+        type: array
+      start_time:
+        example: "2023-11-12T16:45:00Z"
+        type: string
+      text:
+        type: string
+    required:
+    - messages
+    - start_time
+    - text
     type: object
   fr_internal_transport_http_v1.response:
     properties:
@@ -71,8 +96,8 @@ definitions:
         example: tag
         type: string
       tel_number:
-        example: "9999999999"
-        type: string
+        example: 9999999999
+        type: integer
       timezone:
         example: UTC
         type: string
@@ -107,8 +132,8 @@ definitions:
         example: tag
         type: string
       tel_number:
-        example: "9999999999"
-        type: string
+        example: 9999999999
+        type: integer
       timezone:
         example: UTC
         type: string
@@ -148,6 +173,31 @@ definitions:
     - id
     type: object
   internal_transport_http_v1.getLastMessageStatusesResponse:
+    properties:
+      messages:
+        items:
+          $ref: '#/definitions/models.MessageStatus'
+        type: array
+    required:
+    - messages
+    type: object
+  internal_transport_http_v1.getNewsletter:
+    properties:
+      filter:
+        $ref: '#/definitions/models.Filter'
+      messages:
+        items:
+          $ref: '#/definitions/models.MessageStatus'
+        type: array
+      start_time:
+        example: "2023-11-12T16:45:00Z"
+        type: string
+      text:
+        type: string
+    required:
+    - messages
+    - start_time
+    - text
     type: object
   internal_transport_http_v1.response:
     properties:
@@ -167,8 +217,8 @@ definitions:
         example: tag
         type: string
       tel_number:
-        example: "9999999999"
-        type: string
+        example: 9999999999
+        type: integer
       timezone:
         example: UTC
         type: string
@@ -206,6 +256,24 @@ definitions:
         items:
           type: string
         type: array
+    type: object
+  models.MessageStatus:
+    properties:
+      client_id:
+        type: integer
+      creation_time:
+        type: string
+      id:
+        type: integer
+      newsletter_id:
+        type: integer
+      send_time:
+        type: string
+      status:
+        example: status
+        type: string
+      time:
+        type: string
     type: object
 host: 127.0.0.1:8000
 info:
@@ -387,6 +455,39 @@ paths:
           schema:
             $ref: '#/definitions/fr_internal_transport_http_v1.response'
       summary: Update
+      tags:
+      - Newsletter
+  /newsletter/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Выводит информацию о рассылке
+      parameters:
+      - description: Newsletter ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.getNewsletter'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/fr_internal_transport_http_v1.response'
+      summary: GetNewsletter
       tags:
       - Newsletter
   /newsletter/{id}/messages:

@@ -24,7 +24,7 @@ func sendMsg(msg_user models.MessageFull) (*ResponseBody, error) {
 		Text  string
 	}{
 		Id:    msg_user.MessageId,
-		Phone: 1234,
+		Phone: msg_user.TelNumber,
 		Text:  msg_user.Text,
 	}
 	postBody, _ := json.Marshal(body)

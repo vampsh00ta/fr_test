@@ -26,10 +26,10 @@ func (pg Pg) AddNewsletter(ctx context.Context, tx pgx.Tx, newsletter models.New
 			return nil, err
 		}
 	}
-	q := `insert into newsletter (start_time , text) 
-		values ($1,$2) returning id
+	q := `insert into newsletter (start_time , text,filter) 
+		values ($1,$2,$3) returning id
 		 `
-	if err = tx.QueryRow(ctx, q, newsletter.StartTime, newsletter.Text).
+	if err = tx.QueryRow(ctx, q, newsletter.StartTime, newsletter.Text, newsletter.Filter).
 		Scan(&newsletter.Id); err != nil {
 		return nil, err
 	}
@@ -109,7 +109,7 @@ func (pg Pg) GetNewsletterById(ctx context.Context, tx pgx.Tx, id int) (*models.
 	}
 	q := `select * from  newsletter where id = $1`
 	var newsletter models.Newsletter
-	if err = tx.QueryRow(ctx, q, id).Scan(&newsletter.Id, &newsletter.StartTime, &newsletter.EndTime, &newsletter.Text); err != nil {
+	if err = tx.QueryRow(ctx, q, id).Scan(&newsletter.Id, &newsletter.StartTime, &newsletter.EndTime, &newsletter.Text, &newsletter.Filter); err != nil {
 		return nil, err
 	}
 	return &newsletter, nil

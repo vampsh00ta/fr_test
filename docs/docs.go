@@ -333,6 +333,56 @@ const docTemplate = `{
                 }
             }
         },
+        "/newsletter/{id}": {
+            "get": {
+                "description": "Выводит информацию о рассылке",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Newsletter"
+                ],
+                "summary": "GetNewsletter",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Newsletter ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.getNewsletter"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fr_internal_transport_http_v1.response"
+                        }
+                    }
+                }
+            }
+        },
         "/newsletter/{id}/messages": {
             "get": {
                 "description": "Выводит последние статусы сообщения по id рассылки",
@@ -412,8 +462,8 @@ const docTemplate = `{
                     "example": "tag"
                 },
                 "tel_number": {
-                    "type": "string",
-                    "example": "9999999999"
+                    "type": "integer",
+                    "example": 9999999999
                 },
                 "timezone": {
                     "type": "string",
@@ -465,7 +515,44 @@ const docTemplate = `{
             }
         },
         "fr_internal_transport_http_v1.getLastMessageStatusesResponse": {
-            "type": "object"
+            "type": "object",
+            "required": [
+                "messages"
+            ],
+            "properties": {
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.MessageStatus"
+                    }
+                }
+            }
+        },
+        "fr_internal_transport_http_v1.getNewsletter": {
+            "type": "object",
+            "required": [
+                "messages",
+                "start_time",
+                "text"
+            ],
+            "properties": {
+                "filter": {
+                    "$ref": "#/definitions/models.Filter"
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.MessageStatus"
+                    }
+                },
+                "start_time": {
+                    "type": "string",
+                    "example": "2023-11-12T16:45:00Z"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
         },
         "fr_internal_transport_http_v1.response": {
             "type": "object",
@@ -499,8 +586,8 @@ const docTemplate = `{
                     "example": "tag"
                 },
                 "tel_number": {
-                    "type": "string",
-                    "example": "9999999999"
+                    "type": "integer",
+                    "example": 9999999999
                 },
                 "timezone": {
                     "type": "string",
@@ -549,8 +636,8 @@ const docTemplate = `{
                     "example": "tag"
                 },
                 "tel_number": {
-                    "type": "string",
-                    "example": "9999999999"
+                    "type": "integer",
+                    "example": 9999999999
                 },
                 "timezone": {
                     "type": "string",
@@ -602,7 +689,44 @@ const docTemplate = `{
             }
         },
         "internal_transport_http_v1.getLastMessageStatusesResponse": {
-            "type": "object"
+            "type": "object",
+            "required": [
+                "messages"
+            ],
+            "properties": {
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.MessageStatus"
+                    }
+                }
+            }
+        },
+        "internal_transport_http_v1.getNewsletter": {
+            "type": "object",
+            "required": [
+                "messages",
+                "start_time",
+                "text"
+            ],
+            "properties": {
+                "filter": {
+                    "$ref": "#/definitions/models.Filter"
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.MessageStatus"
+                    }
+                },
+                "start_time": {
+                    "type": "string",
+                    "example": "2023-11-12T16:45:00Z"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
         },
         "internal_transport_http_v1.response": {
             "type": "object",
@@ -636,8 +760,8 @@ const docTemplate = `{
                     "example": "tag"
                 },
                 "tel_number": {
-                    "type": "string",
-                    "example": "9999999999"
+                    "type": "integer",
+                    "example": 9999999999
                 },
                 "timezone": {
                     "type": "string",
@@ -685,6 +809,33 @@ const docTemplate = `{
                     "example": [
                         "tag"
                     ]
+                }
+            }
+        },
+        "models.MessageStatus": {
+            "type": "object",
+            "properties": {
+                "client_id": {
+                    "type": "integer"
+                },
+                "creation_time": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "newsletter_id": {
+                    "type": "integer"
+                },
+                "send_time": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "status"
+                },
+                "time": {
+                    "type": "string"
                 }
             }
         }

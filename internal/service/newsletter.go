@@ -14,6 +14,7 @@ type Newsletter interface {
 	UpdateStartTimeNewsletter(ctx context.Context, id int, startTime time.Time) error
 	UpdateNewsletter(ctx context.Context, id int, t *time.Time, text string) error
 	DeleteNewsletter(ctx context.Context, id int) error
+	GetNewsletter(ctx context.Context, id int) (*models.Newsletter, error)
 }
 
 func (s service) CreateNewsletter(ctx context.Context, newsletter models.Newsletter) (*models.Newsletter, error) {
@@ -187,4 +188,24 @@ func (s service) DeleteNewsletter(ctx context.Context, id int) error {
 		return err
 	}
 	return nil
+}
+
+func (s service) GetNewsletter(ctx context.Context, id int) (*models.Newsletter, error) {
+	tx, err := s.repo.Tx(ctx)
+	defer tx.Commit(ctx)
+	if err != nil {
+		return nil, err
+	}
+	newsletter, err := s.repo.GetNewsletterById(ctx, tx, id)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(newsletter)
+	msgs, err := s.repo.GetLastStatusesByNewsletterId(ctx, tx, id, "")
+	if err != nil {
+		return nil, err
+	}
+	newsletter.Messages = msgs
+	return newsletter, nil
+
 }
